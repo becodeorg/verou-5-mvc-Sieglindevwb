@@ -10,10 +10,10 @@ error_reporting(E_ALL);
 require 'Model/Article.php';
 //include all your controllers here
 require 'Controller/HomepageController.php';
+require 'Controller/ArticleController.php';
 require 'Core/DatabaseManager.php';
-require 'Core/config.php';
-require './Controller/ArticleController.php';
 
+$databaseManager = new DatabaseManager($config['host'], $config['user'], $config['password'], $config['dbname']);
 // Get the current page to load
 // If nothing is specified, it will remain empty (home should be loaded)
 $page = $_GET['page'] ?? null;
@@ -25,7 +25,7 @@ switch ($page) {
         // This is shorthand for:
         // $articleController = new ArticleController;
         // $articleController->index();
-        (new ArticleController())->index();
+        (new ArticleController($databaseManager))->index();
         break;
     case 'articles-show':
         // TODO: detail page
