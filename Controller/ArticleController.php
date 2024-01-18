@@ -41,6 +41,7 @@ class ArticleController
         return $articles;
         } catch (PDOException $e) {
             echo("Select query failed" . $e->getMessage());
+            die();
         }
     }
 
@@ -48,7 +49,50 @@ class ArticleController
     {
         // this can be used for a detail page
         $article = $this->getArticleById($articleId);
+
+        $prevArticleId = $this->getPrevArticleId($articleId);
+        $nextArticleId = $this->getNextArticleId($articleId);
+
          require 'View/articles/show.php';
+    }
+
+    private function getArticleById($articleId)
+    {
+        if ($articleId === null || !is_numeric($articleId)) {
+        // Handle the case when $articleId is NULL or not a valid number
+        // You might want to redirect to an error page or show an error message.
+        echo "Invalid article ID";
+        return null;
+    }
+        $statement = $this->databaseManager->connection->prepare('SELECT * FROM articles WHERE id = :id');
+        $statement->bindParam(':id', $articleId);
+        $statement->execute();
+
+        $rawArticle = $statement->fetch(PDO::FETCH_ASSOC);
+
+        return new Article($rawArticle['title'], $rawArticle['description'], $rawArticle['publish_date']);
+    }
+
+    private function getPrevArticleId($currentArticleId)
+    {
+        $statement = $this->databaseManager->connection->prepare('SELECT id FROM articles WHERE id < :currentId ORDER BY id DESC LIMIT 1');
+        $statement->bindParam(':currentId', $currentArticleId);
+        $statement->execute();
+
+        $prevArticleId = $statement->fetch(PDO::FETCH_COLUMN);
+
+        return $prevArticleId;
+    }
+
+    private function getNextArticleId($currentArticleId)
+    {
+         $statement = $this->databaseManager->connection->prepare('SELECT id FROM articles WHERE id > :currentId ORDER BY id ASC LIMIT 1');
+        $statement->bindParam(':currentId', $currentArticleId);
+        $statement->execute();
+
+        $nextArticleId = $statement->fetch(PDO::FETCH_COLUMN);
+
+        return $nextArticleId;
     }
 
 }

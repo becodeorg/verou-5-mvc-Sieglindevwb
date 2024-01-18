@@ -18,6 +18,7 @@ $databaseManager = new DatabaseManager($config['host'], $config['user'], $config
 // If nothing is specified, it will remain empty (home should be loaded)
 $page = $_GET['page'] ?? null;
 
+
 // Load the controller
 // It will *control* the rest of the work to load the page
 switch ($page) {
@@ -29,6 +30,9 @@ switch ($page) {
         break;
     case 'articles-show':
         // TODO: detail page
+        $articleId = $_GET['id'] ?? null;
+        (new ArticleController($databaseManager))->show($articleId);
+        break;
     case 'home':
     default:
         (new HomepageController())->index();
