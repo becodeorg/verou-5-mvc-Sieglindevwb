@@ -10,7 +10,9 @@ error_reporting(E_ALL);
 require 'Model/Article.php';
 //include all your controllers here
 require 'Controller/HomepageController.php';
-require 'Controller/ArticleController.php';
+require 'Core/DatabaseManager.php';
+require 'Core/config.php';
+require './Controller/ArticleController.php';
 
 // Get the current page to load
 // If nothing is specified, it will remain empty (home should be loaded)
