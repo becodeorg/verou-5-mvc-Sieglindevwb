@@ -15,8 +15,14 @@ class Article
         $this->publishDate = $publishDate;
     }
 
-    public function formatPublishDate($format = 'DD-MM-YYYY')
+    public function formatPublishDate($format = 'd-m-Y')
     {
-        // TODO: return the date in the required format
+        // return the date in the required format
+        if ($this->publishDate === null) {
+            return '';
+        }
+
+        $dateTime = new DateTime($this->publishDate);
+        return $dateTime->format($format);
     }
 }
