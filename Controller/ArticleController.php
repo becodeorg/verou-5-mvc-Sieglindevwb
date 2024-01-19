@@ -88,16 +88,31 @@ class ArticleController
 
         $prevArticleId = $statement->fetch(PDO::FETCH_COLUMN);
 
+        if ($prevArticleId === false) {
+            // If there is no previous article, get the ID of the last article
+            $statement = $this->databaseManager->connection->query('SELECT id FROM articles ORDER BY id DESC LIMIT 1');
+            $lastArticleId = $statement->fetch(PDO::FETCH_COLUMN);
+
+            return $lastArticleId;
+        }
+
         return $prevArticleId;
     }
 
     private function getNextArticleId($currentArticleId)
     {
-         $statement = $this->databaseManager->connection->prepare('SELECT id FROM articles WHERE id > :currentId ORDER BY id ASC LIMIT 1');
+        $statement = $this->databaseManager->connection->prepare('SELECT id FROM articles WHERE id > :currentId ORDER BY id ASC LIMIT 1');
         $statement->bindParam(':currentId', $currentArticleId);
         $statement->execute();
 
         $nextArticleId = $statement->fetch(PDO::FETCH_COLUMN);
+
+        if ($nextArticleId === false) {
+            $statement = $this->databaseManager->connection->query('SELECT id FROM articles ORDER BY id ASC LIMIT 1');
+            $firstArticleId = $statement->fetch(PDO::FETCH_COLUMN);
+
+            return $firstArticleId;
+        }
 
         return $nextArticleId;
     }
