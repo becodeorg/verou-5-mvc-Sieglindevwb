@@ -69,7 +69,7 @@ class ArticleController
         echo "Invalid article ID";
         return null;
     }
-        $this->databasManager->connect();
+        $this->databaseManager->connect();
 
         $statement = $this->databaseManager->connection->prepare('SELECT * FROM articles WHERE id = :id');
         $statement->bindParam(':id', $articleId);
