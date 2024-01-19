@@ -7,6 +7,13 @@
     <p><?= $article->formatPublishDate() ?></p>
     <p><?= $article->description ?></p>
 
+     <?php
+    $imageUrl = $article->getImageUrl();
+    if ($imageUrl !== null): ?>
+        <img src="<?= $imageUrl ?>" alt="Article Image"><br>
+    <?php endif; ?>
+    <br>
+
     <!-- links to next and previous -->
     <?php if ($prevArticleId !== null):  ?>
         <a href="index.php?page=articles-show&id=<?= $prevArticleId ?>">Previous article</a>

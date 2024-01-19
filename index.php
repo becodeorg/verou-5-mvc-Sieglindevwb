@@ -29,7 +29,7 @@ switch ($page) {
         (new ArticleController($databaseManager))->index();
         break;
     case 'articles-show':
-        // TODO: detail page
+        // detail page
         $articleId = $_GET['id'] ?? null;
         (new ArticleController($databaseManager))->show($articleId);
         break;

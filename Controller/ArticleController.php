@@ -36,7 +36,7 @@ class ArticleController
         $articles = [];
         foreach ($rawArticles as $rawArticle) {
             // We are converting an article from a "dumb" array to a much more flexible class
-            $articles[] = new Article($rawArticle['title'], $rawArticle['description'], $rawArticle['publish_date']);
+            $articles[] = new Article($rawArticle['title'], $rawArticle['description'], $rawArticle['publish_date'], $rawArticle['image_url']);
         }
         return $articles;
         } catch (PDOException $e) {
@@ -77,7 +77,7 @@ class ArticleController
 
         $rawArticle = $statement->fetch(PDO::FETCH_ASSOC);
 
-        return $rawArticle ? new Article($rawArticle['title'], $rawArticle['description'], $rawArticle['publish_date']) : null;
+        return $rawArticle ? new Article($rawArticle['title'], $rawArticle['description'], $rawArticle['publish_date'], $rawArticle['image_url']) : null;
     }
 
     private function getPrevArticleId($currentArticleId)

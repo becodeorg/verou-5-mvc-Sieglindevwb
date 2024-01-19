@@ -7,12 +7,14 @@ class Article
     public string $title;
     public ?string $description;
     public ?string $publishDate;
+    private ?string $imageUrl;
 
-    public function __construct(string $title, ?string $description, ?string $publishDate)
+    public function __construct(string $title, ?string $description, ?string $publishDate, string $imageUrl = null)
     {
         $this->title = $title;
         $this->description = $description;
         $this->publishDate = $publishDate;
+        $this->imageUrl = $imageUrl;
     }
 
     public function formatPublishDate($format = 'd-m-Y')
@@ -24,5 +26,10 @@ class Article
 
         $dateTime = new DateTime($this->publishDate);
         return $dateTime->format($format);
+    }
+
+    public function getImageUrl(): ?string
+    {
+        return $this->imageUrl;
     }
 }
