@@ -16,9 +16,9 @@
 
     <!-- links to next and previous -->
     <?php if ($prevArticleId !== null):  ?>
-        <a href="index.php?page=articles-show&id=<?= $prevArticleId ?>" style="color: #ff69b4; text-decoration: none;">Previous article</a>
+        <a href="index.php?page=articles-show&id=<?= $prevArticleId ?>" style="color: #ff69b4; text-decoration: none;">Previous article &#x2022;</a>
     <?php endif; ?>
-    
+
     <?php if ($nextArticleId !== null):  ?>
         <a href="index.php?page=articles-show&id=<?= $nextArticleId ?>" style="color: #ff69b4; text-decoration: none;">Next article</a>
     <?php endif; ?>
