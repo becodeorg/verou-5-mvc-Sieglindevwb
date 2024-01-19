@@ -50,6 +50,11 @@ class ArticleController
         // this can be used for a detail page
         $article = $this->getArticleById($articleId);
 
+        if ($article === null) {
+            echo "Article not found";
+            return;
+        }
+
         $prevArticleId = $this->getPrevArticleId($articleId);
         $nextArticleId = $this->getNextArticleId($articleId);
 
@@ -64,13 +69,15 @@ class ArticleController
         echo "Invalid article ID";
         return null;
     }
+        $this->databasManager->connect();
+
         $statement = $this->databaseManager->connection->prepare('SELECT * FROM articles WHERE id = :id');
         $statement->bindParam(':id', $articleId);
         $statement->execute();
 
         $rawArticle = $statement->fetch(PDO::FETCH_ASSOC);
 
-        return new Article($rawArticle['title'], $rawArticle['description'], $rawArticle['publish_date']);
+        return $rawArticle ? new Article($rawArticle['title'], $rawArticle['description'], $rawArticle['publish_date']) : null;
     }
 
     private function getPrevArticleId($currentArticleId)
